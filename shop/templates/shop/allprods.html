@@ -1,0 +1,137 @@
+{% extends 'shop/basic.html' %}
+{% block title %} Products {% endblock %}
+{% block css %}
+<style>
+    body {
+        background-color: #d0c7f6;
+        font-family: Arial, sans-serif;
+
+        /* height: 100vh; */
+    }
+
+    .container2 {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        max-width: 1200px;
+    }
+
+    .card {
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        padding: 15px;
+        text-align: center;
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.3s, background-color 0.3s;
+        height: 450px;
+    }
+
+    .card:hover {
+        text-decoration: none;
+        color: inherit;
+        background-color: #f0f0f0;
+        transform: translateY(-10px);
+    }
+
+    .card img {
+        width: 100%;
+        border-radius: 10px;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+    }
+
+    .tag {
+        display: inline-block;
+        background-color: #f3d1f4;
+        color: #d63384;
+        border-radius: 15px;
+        padding: 5px 10px;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 10px;
+        margin: 10px 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .price {
+        font-size: 16px;
+        color: #333;
+        margin: 10px 0;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .button-container .icon {
+        font-size: 24px;
+        color: #4a4aff;
+        border: 2px solid #4a4aff;
+        border-radius: 50%;
+        padding: 10px;
+        transition: transform 0.3s, color 0.3s;
+    }
+
+    .card:hover .icon {
+        transform: rotate(360deg);
+        color: #120808;
+        border-color: #120808;
+    }
+
+    .button-container .add-to-cart {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
+{% endblock css %}
+
+{% block body %}
+<div class="container2">
+    {% for products in products %}
+    <a class="card" href="/products/{{products.id}}">
+        <img alt="{{products.product_name}}" height="200" src="{{products.image.url}}" width="300" />
+        <div class="tag">{{products.product_name}}</div>
+        <div class="title">{{products.desc}}</div>
+        <div class="price">MRP:{{products.price}}</div>
+        <div class="button-container">
+            <i class="fas fa-arrow-circle-up icon"></i>
+            <form action="/cart/" method="post">
+                <!-- <button class="card-button material-symbols-rounded">arrow_forward</button> -->
+                {% csrf_token %}
+                <input type="hidden" name="product_id" value="{{ products.id }}">
+                <input type="hidden" name="action" value="add"> <!-- Action is "add" here -->
+                <button type="submit" class="add-to-cart">Add to Cart</button>
+            </form>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+{% endblock %}

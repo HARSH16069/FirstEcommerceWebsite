@@ -1,0 +1,268 @@
+{% extends 'shop/basic.html' %}
+{% block css %}
+<style>
+  /* Importing Google fonts - Inter */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap');
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: "Inter", sans-serif;
+    background-color: #8EC5FC;
+
+    background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+
+  }
+
+  .transparent-text {
+    margin: 10px;
+    text-align: center;
+    font-size: 30px;
+  }
+
+  .harsh {
+    margin-top: -70px;
+    margin-left: 50%;
+    /* <!--  fload:left;--> */
+  }
+
+
+  html {
+    background: #fff;
+  }
+
+  .card-wrapper {
+    /* <!--    margin-left:500px;--> */
+    max-width: 1100px;
+    margin: 0 60px 5px;
+    padding: 20px 10px;
+    overflow: hidden;
+  }
+
+  .card-list .card-item {
+    list-style: none;
+  }
+
+  .card-list .card-item .card-link {
+    display: block;
+    background: #fff;
+    padding: 18px;
+    user-select: none;
+    border-radius: 12px;
+    text-decoration: none;
+    border: 2px solid transparent;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
+    transition: 0.2s ease;
+  }
+
+  .card-list .card-item .card-link:active {
+    cursor: grabbing;
+  }
+
+  .card-list .card-item .card-link:hover {
+    border-color: #5372F0;
+  }
+
+  .card-list .card-link .card-image {
+    width: 100%;
+    border-radius: 10px;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .card-list .card-link .badge {
+    color: #5372F0;
+    width: fit-content;
+    padding: 8px 16px;
+    font-size: 0.95rem;
+    border-radius: 50px;
+    font-weight: 500;
+    background: #DDE4FF;
+    margin: 16px 0 18px;
+  }
+
+  .card-list .card-link .badge-designer {
+    color: #B22485;
+    background: #F7DFF5;
+  }
+
+  .card-list .card-link .badge-marketer {
+    color: #B25A2B;
+    background: #FFE3D2;
+  }
+
+  .card-list .card-link .badge-gamer {
+    color: #205C20;
+    background: #D6F8D6;
+  }
+
+  .card-list .card-link .badge-editor {
+    color: #856404;
+    background: #fff3cd;
+  }
+
+  .card-list .card-link .card-title {
+    color: #000;
+    font-size: 1.19rem;
+    font-weight: 600;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+
+  .card-list .card-link .card-button {
+    height: 35px;
+    width: 35px;
+    color: #5372F0;
+    margin: 30px 0 5px;
+    background: none;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #5372F0;
+    transform: rotate(-45deg);
+    transition: 0.4s ease;
+  }
+
+  .card-list .card-link:hover .card-button {
+    color: #fff;
+    background: #5372F0;
+  }
+
+  .card-wrapper .swiper-pagination-bullet {
+    height: 13px;
+    width: 13px;
+    opacity: 0.5;
+    background: #5372F0;
+  }
+
+  .card-wrapper .swiper-pagination-bullet-active {
+    opacity: 1;
+  }
+
+  .card-wrapper .swiper-slide-button {
+    color: #5372F0;
+    margin-top: -35px;
+  }
+
+  /* Responsive media query code for small screens */
+  @media (max-width: 768px) {
+    .card-wrapper {
+      margin: 0 10px 25px;
+    }
+
+    .card-wrapper .swiper-slide-button {
+      display: none;
+    }
+
+    .swiper-wrapper {
+      display: flex;
+      /* Makes slides go in a horizontal row */
+      transition-timing-function: ease;
+    }
+
+    .flex {
+      padding: -50px;
+    }
+
+    .harsh {
+      margin-top: -10px;
+    }
+
+    .swiper-slide {
+      width: 100%;
+      /* Or set a specific width */
+      flex-shrink: 0;
+    }
+  }
+
+  @media (max-width: 417px) {
+    .harsh {
+      margin-top: -69px;
+    }
+  }
+</style>
+{% endblock %}
+{% block body %}
+{% load static %}
+{% for category,products in category_product.items %}
+<div class="container swiper">
+  <div class="card-wrapper">
+    <div class="transparent-text"><b> {{category}}</b></div>
+    <!-- Card slides container -->
+    <ul class="card-list swiper-wrapper">
+      {% for i in products %}
+      <li class="card-item swiper-slide">
+        <a href="products/{{i.id}}" class="card-link">
+          <img src="/media/{{i.image}}" alt="Card Image" class="card-image">
+          <p class="badge badge-designer">{{i.product_name}}</p>
+          <h2 class="card-title">{{i.desc}}</h2>
+          <!--                    <br>-->
+          <p class="card-title">MRP:{{i.price}}</p>
+          <div class="flex">
+            <form action="{% url 'cart' %}" method="post">
+              <button class="card-button material-symbols-rounded">arrow_forward</button>
+              {% csrf_token %}
+              <input type="hidden" name="product_id" value="{{ i.id }}">
+              <input type="hidden" name="action" value="add"> <!-- Action is "add" here -->
+              <button type="submit" class="btn btn-primary harsh">Add to Cart</button>
+            </form>
+          </div>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <!-- Pagination -->
+    <div class="swiper-pagination"></div>
+    <!-- Navigation Buttons -->
+    <div class="swiper-slide-button swiper-button-prev"></div>
+    <div class="swiper-slide-button swiper-button-next"></div>
+  </div>
+</div>
+{% endfor %}
+<!-- Linking SwiperJS script -->
+
+{% endblock %}
+{% block js %}
+<script>
+
+  new Swiper('.card-wrapper', {
+    loop: true,
+    spaceBetween: 30,
+    // Pagination bullets
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+      dynamicBullets: true
+    },
+    // Navigation arrows
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    // Responsive breakpoints
+    breakpoints: {
+      0: {
+        slidesPerView: 1
+      },
+      768: {
+        slidesPerView: 2
+      },
+      1024: {
+        slidesPerView: 3
+      }
+    }
+  });
+
+</script>
+{% endblock %}

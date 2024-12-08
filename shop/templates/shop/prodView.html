@@ -1,0 +1,630 @@
+{% extends 'shop/basic.html' %}
+{% block title %} Product View {% endblock %}
+{% block cssstyle%}
+<script src="https://cdn.tailwindcss.com"></script> {% endblock %}
+{% block css %}
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+  }
+html {
+  scroll-behavior: smooth;
+}
+
+  body {
+    line-height: 1.5;
+  }
+
+  .card-wrapper {
+    max-width: 1150px;
+    margin: 0 auto;
+    margin-top: 90px;
+    margin-bottom: 80px;
+  }
+
+  img {
+    width: 100%;
+    display: block;
+  }
+
+  .img-display {
+    overflow: hidden;
+  }
+
+  .img-showcase {
+    display: flex;
+    width: 100%;
+    transition: all 0.5s ease;
+  }
+
+  .img-showcase img {
+    min-width: 100%;
+  }
+
+  .img-select {
+    display: flex;
+  }
+
+  .img-item {
+    margin: 0.3rem;
+  }
+
+  .img-item:nth-child(1),
+  .img-item:nth-child(2),
+  .img-item:nth-child(3) {
+    margin-right: 0;
+  }
+
+  .img-item:hover {
+    opacity: 0.8;
+  }
+
+  .product-content {
+    padding: 2rem 1rem;
+  }
+
+  .product-title {
+    font-size: 3rem;
+    text-transform: capitalize;
+    font-weight: 700;
+    position: relative;
+    color: #12263a;
+    margin: 1rem 0;
+  }
+
+  .product-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 4px;
+    width: 80px;
+    background: #12263a;
+  }
+
+  .product-link {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    background: #256eff;
+    color: #fff;
+    padding: 0 0.3rem;
+    transition: all 0.5s ease;
+  }
+
+  .product-link:hover {
+    opacity: 0.9;
+  }
+
+  .product-rating {
+    color: #ffc107;
+  }
+
+  .product-rating span {
+    font-weight: 600;
+    color: #252525;
+  }
+
+  .product-price {
+    margin: 1rem 0;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .product-price span {
+    font-weight: 400;
+  }
+
+  .last-price span {
+    color: #f64749;
+    text-decoration: line-through;
+  }
+
+  .new-price span {
+    color: #256eff;
+  }
+
+  .product-detail h2 {
+    text-transform: capitalize;
+    color: #12263a;
+    padding-bottom: 0.6rem;
+  }
+
+  .product-detail p {
+    font-size: 0.9rem;
+    padding: 0.3rem;
+    opacity: 0.8;
+  }
+
+  .product-detail ul {
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+
+  .product-detail ul li {
+    margin: 0;
+    list-style: none;
+    background: url(shoes_images/checked.png) left center no-repeat;
+    background-size: 18px;
+    padding-left: 1.7rem;
+    margin: 0.4rem 0;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+
+  .product-detail ul li span {
+    font-weight: 400;
+  }
+
+  .purchase-info {
+    margin: 1.5rem 0;
+  }
+
+  .purchase-info input,
+  .purchase-info .btn {
+    border: 1.5px solid #ddd;
+    border-radius: 35px;
+    text-align: center;
+    padding: 0.45rem 0.8rem;
+    outline: 0;
+    margin-right: 0.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .purchase-info input {
+    width: 60px;
+  }
+
+  .purchase-info .btn {
+    cursor: pointer;
+    color: #fff;
+  }
+
+  .purchase-info .btn:first-of-type {
+    background: #256eff;
+  }
+
+  .purchase-info .btn:last-of-type {
+    background: #f64749;
+  }
+
+  .purchase-info .btn:hover {
+    opacity: 0.9;
+  }
+
+  .social-links {
+    display: flex;
+    align-items: center;
+  }
+
+  .social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: #000;
+    border: 1px solid #000;
+    margin: 0 0.2rem;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: all 0.5s ease;
+  }
+
+  .social-links a:hover {
+    background: #000;
+    border-color: transparent;
+    color: #fff;
+  }
+
+  @media screen and (min-width: 992px) {
+    .card {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 1.5rem;
+    }
+
+    .card-wrapper {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .product-imgs {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .product-content {
+      padding-top: 0;
+    }
+  }
+
+  /* Import Google font - Poppins */
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+
+  .form-container {
+    background: #fff;
+    padding: 40px 60px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    margin: 20px;
+  }
+
+  .form-container header {
+    font-size: 26px;
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 25px;
+  }
+
+  .form-container .stars {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .stars i {
+    color: #e6e6e6;
+    font-size: 40px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .stars i.active {
+    color: #ff9c1a;
+  }
+
+  .form-container input[type="text"],
+  .form-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    resize: vertical;
+  }
+
+  .form-container textarea {
+    height: 100px;
+  }
+
+  .submit-btn {
+    padding: 12px 30px;
+    background-color: #ff9c1a;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+  }
+
+  .submit-btn:hover {
+    background-color: #e68900;
+  }
+
+  .masonry {
+    column-count: 1;
+    column-gap: 1rem;
+  }
+
+  @media(min-width: 768px) {
+    .masonry {
+      column-count: 2;
+    }
+  }
+
+  @media(min-width: 1024px) {
+    .masonry {
+      column-count: 3;
+    }
+  }
+
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+
+  .form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .rating-box {
+    text-align: center;
+  }
+
+  .viewcenter {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+  }
+
+  p {
+    word-wrap: break-word;
+    /* Prevent text from overflowing */
+  }
+  a:hover{
+    text-decoration:none;
+  }
+</style>
+{% endblock %}
+{% block body %}
+{% load static %}
+<div class="card-wrapper">
+  <div class="card">
+    <!-- card left -->
+    <div class="product-imgs">
+      <div class="img-display">
+        <div class="img-showcase">
+          <img src="/media/{{product.image}}" alt="shoe image">
+          <img src="/media/{{product.image}}" alt="shoe image">
+          <img src="/media/{{product.image}}" alt="shoe image">
+          <img src="/media/{{product.image}}" alt="shoe image">
+        </div>
+      </div>
+      <div class="img-select">
+        <div class="img-item">
+          <a href="#" data-id="1">
+            <img src="/media/{{product.image}}" alt="shoe image">
+          </a>
+        </div>
+        <div class="img-item">
+          <a href="#" data-id="2">
+            <img src="/media/{{product.image}}" alt="shoe image">
+          </a>
+        </div>
+        <div class="img-item">
+          <a href="#" data-id="3">
+            <img src="/media/{{product.image}}" alt="shoe image">
+          </a>
+        </div>
+        <div class="img-item">
+          <a href="#" data-id="4">
+            <img src="/media/{{product.image}}" alt="shoe image">
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- card right -->
+    <div class="product-content">
+      <h2 class="product-title">{{product.product_name}}</h2>
+      <a href="{{product.link}}" target="_blank" rel="noopener noreferrer" class="product-link">More Detail of
+        {{product.product_name}}</a>
+        <a href="#RatingSystem">
+      <div class="product-rating">
+        {% for i in rating_range %}
+        {% if i <= average_rating %} <i class="fas fa-star text-yellow-500"></i> <!-- Filled star -->
+          {% else %}
+          <i class="far fa-star text-yellow-500"></i> <!-- Empty star -->
+          {% endif %}
+          {% endfor %}
+          <span>{{ average_rating|floatformat:1 }}({{ total_reviews }})</span>
+      </div>
+</a>
+      <div class="product-price">
+        <p class="new-price">Price: <span>{{product.price}}</span></p>
+      </div>
+
+      <div class="product-detail">
+        <h2>about this item: </h2>
+        <p>{{product.desc}}</p>
+        <ul>
+          <li>Color: <span>Black</span></li>
+          <li>Available: <span>in stock</span></li>
+          <li>Category: <span>{{product.category}}</span></li>
+          <li>Shipping Area: <span>All over the India</span></li>
+          <li>Shipping Fee: <span>Free</span></li>
+        </ul>
+      </div>
+
+      <div class="purchase-info">
+        <form action="/cart/" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="product_id" value="{{ product.id }}">
+          <input type="hidden" name="action" value="add">
+          <button type="submit" class="btn btn-primary">Add to Cart</button>
+          <!-- <button type="button" class="btn">Compare</button> -->
+        </form>
+        <form action="{% url 'favorites_storage' %}" method="post">
+          {% csrf_token %}
+          <input type="number" hidden value="{{product.id}}" name="product_id">
+          <button type="submit" class="btn btn-outline-warning">
+            <i class="fas fa-heart"></i> Add to Favorites
+          </button>
+        </form>
+      </div>
+
+      <div class="social-links">
+        <p>Share At: </p>
+        <a href="#">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="#">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="#">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="#">
+          <i class="fab fa-pinterest"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-lg border border-gray-300 mt-5" id='RatingSystem'>
+  <h1 class="text-2xl font-bold mb-4">Customer Feedback</h1>
+  <!-- Overall Rating Section -->
+  <!-- Overall Rating Section -->
+  <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+    <div class="w-full md:w-1/3 mb-4 md:mb-0">
+      <!-- Loop through rating_range (1-5 stars) -->
+      {% for i, data in rating_counts %}
+      <div class="flex items-center mb-2">
+        <span class="text-yellow-500"><i class="fas fa-star"></i></span>
+        <span class="ml-2">{{ i }} </span>
+
+        <!-- Progress Bar for Each Rating -->
+        <div class="w-full bg-gray-200 rounded-full h-2.5 ml-2">
+          <!-- Display the percentage width for each rating -->
+          <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ data.percentage }}%"></div>
+        </div>
+
+        <!-- Display Percentage for the Rating -->
+        <span class="ml-2">{{ data.percentage|floatformat:0 }}%</span>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Total Reviews Section -->
+    <div class="w-full md:w-1/3 text-center mb-4 md:mb-0">
+      <h2 class="text-xl font-bold">Total Reviews</h2>
+      <p class="text-gray-600">{{ total_reviews }} Reviews</p>
+    </div>
+
+    <!-- Average Rating Section -->
+    <div class="w-full md:w-1/3 text-center">
+      <h2 class="text-xl font-bold">Average Rating</h2>
+      <div class="flex justify-center items-center">
+        <!-- Loop through rating_range to show filled or empty stars for the average rating -->
+        {% for i in rating_range %}
+        {% if i <= average_rating %} <i class="fas fa-star text-yellow-500"></i> <!-- Filled star -->
+          {% else %}
+          <i class="far fa-star text-yellow-500"></i> <!-- Empty star -->
+          {% endif %}
+          {% endfor %}
+      </div>
+      <p class="text-gray-600">{{ average_rating|floatformat:1 }}</p>
+    </div>
+  </div>
+
+  <!-- Reviews Section -->
+  <div class="space-y-6">
+    {% for review in reviews %}
+    <div class="bg-white p-4 rounded-lg shadow border border-gray-300">
+      <div class="flex items-center mb-2">
+     {% comment %} <img alt="User avatar" class="w-10 h-10 rounded-full mr-4" src="https://placehold.co/40x40" /> {% endcomment %}
+      
+        <div>
+          <h3 class="font-bold">{{ review.user.username }}</h3>
+          <p class="text-gray-600">{{ review.created_at|date:"M d, Y" }}</p>
+        </div>
+
+        <div class="ml-auto text-yellow-500">
+          {% for i in rating_range %}
+          {% if i <= review.rating %} <i class="fas fa-star"></i>
+            {% else %}
+            <i class="far fa-star"></i>
+            {% endif %}
+            {% endfor %}
+        </div>
+      </div>
+      <p class="text-gray-800 mb-4">{{ review.comment }}</p>
+    </div>
+    {% empty %}
+    <p class="text-gray-600">No reviews yet. Be the first to leave one!</p>
+    {% endfor %}
+  </div>
+
+  <!-- Review Submission Form -->
+  <div class="mt-8 bg-white p-6 rounded-lg shadow border border-gray-300">
+    <h2 class="text-xl font-bold mb-4">Submit Your Review</h2>
+    <form method="post" action="/products/{{ product.id }}">
+      {% csrf_token %}
+      <div class="mb-4">
+        <label class="block text-gray-700 font-bold mb-2">Add Your Rating <span class="text-red-500">*</span></label>
+        <div class="flex space-x-2 text-yellow-500" id="rating-stars">
+          {% for i in rating_range %}
+          <i class="far fa-star cursor-pointer" data-rating="{{ i }}" onclick="rate({{ i }})"></i>
+          {% endfor %}
+        </div>
+        <input type="hidden" id="rating" name="rating" required>
+      </div>
+
+      <div class="flex flex-col md:flex-row md:space-x-4 mb-4">
+        <div class="w-full md:w-1/2 mb-4 md:mb-0">
+          <label class="block text-gray-700 font-bold mb-2" for="title">Title <span
+              class="text-red-500">*</span></label>
+          <input class="w-full p-2 border border-gray-300 rounded-lg" id="title" name="title" type="text" required>
+        </div>
+        <div class="w-full md:w-1/2">
+          <label class="block text-gray-700 font-bold mb-2" for="email">Email <span
+              class="text-red-500">*</span></label>
+          <input class="w-full p-2 border border-gray-300 rounded-lg" id="email" name="email" type="email" required>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 font-bold mb-2" for="comment">Write Your Review <span
+            class="text-red-500">*</span></label>
+        <textarea class="w-full p-2 border border-gray-300 rounded-lg" id="comment" name="comment" required></textarea>
+      </div>
+
+      <button class="bg-blue-600 text-white px-4 py-2 rounded-lg" type="submit">Submit Review</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>const imgs = document.querySelectorAll('.img-select a');
+  const imgBtns = [...imgs];
+  let imgId = 1;
+
+  imgBtns.forEach((imgItem) => {
+    imgItem.addEventListener('click', (event) => {
+      event.preventDefault();
+      imgId = imgItem.dataset.id;
+      slideImage();
+    });
+  });
+
+  function slideImage() {
+    const displayWidth = document.querySelector('.img-showcase img:first-child').clientWidth;
+
+    document.querySelector('.img-showcase').style.transform = `translateX(${- (imgId - 1) * displayWidth}px)`;
+  }
+
+  window.addEventListener('resize', slideImage);    // Select all elements with the "i" tag and store them in a NodeList called "stars"
+  function rate(stars) {
+    const starElements = document.querySelectorAll('#rating-stars .fa-star');
+    // Update the visual state of the stars
+    starElements.forEach((star, index) => {
+      if (index < stars) {
+        star.classList.remove('far');
+        star.classList.add('fas');
+      } else {
+        star.classList.remove('fas');
+        star.classList.add('far');
+      }
+    });
+    // Set the rating value in the hidden input field
+    document.getElementById('rating').value = stars;
+  }
+</script>
+{% endblock %}

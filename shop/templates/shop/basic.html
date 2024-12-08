@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+    crossorigin="anonymous" /><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+  {% block cssstyle%} {% endblock %}
+  <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" /> -->
+  <title>{% block title%} {% endblock %}</title>
+  <style>
+    /* Google Fonts - Poppins */
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+ 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    :root {
+      --white-color: #fff;
+      --blue-color: #4070f4;
+      --grey-color: #707070;
+      --grey-color-light: #aaa;
+    }
+
+    body {
+      background-color: #e7f2fd;
+      max-width: 100vw;
+      height: auto;
+      /* overflow-x: hidden; */
+      transition: all 0.5s ease;
+    }
+
+    body {
+      /* font-family: Arial, sans-serif; */
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background-color: white;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .favorites {
+      width: 2vw;
+      display: none;
+    }
+
+    .logo {
+      /* border: 2px solid black; */
+      /* border-radius: 11px; */
+      padding: 0 9px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #f0f0f0;
+    }
+
+    .logo a {
+      text-decoration: none;
+      color: black;
+    }
+
+    .search-bar {
+      flex-grow: 1;
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search-bar input {
+      margin: 0 10px;
+      width: 100%;
+      max-width: 500px;
+      padding: 8px 20px 8px 35px;
+      border: 1px solid #eaeaea;
+      border-radius: 15px;
+      background-color: #f9f9f9;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .search-bar input:focus {
+      outline: #24262b;
+      border-color: #ccc;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .search-bar i {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      /* transform: rotateY(-30deg); */
+      transform: translateY(-50%);
+      color: #ccc;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 10px 0;
+      background-color: white;
+      border-top: 1px solid #eaeaea;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: black;
+      font-size: 14px;
+    }
+
+    .profile {
+      position: relative;
+    }
+
+    #profileDropdown {
+      display: none;
+      position: absolute;
+      top: 50px;
+      /* Adjust based on the size of your profile icon */
+      right: 0;
+      margin-left: -140px;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      overflow: hidden;
+      transform-origin: top right;
+      transform: scale(0.8);
+      opacity: 0;
+      transition: all 0.3s ease-in-out;
+      z-index: 1000;
+    }
+
+
+    #profileDropdown.show {
+      display: block;
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    #profileDropdown .dropdown-item {
+      padding: 10px 20px;
+      text-decoration: none;
+      color: #333;
+      font-size: 14px;
+      display: block;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    #profileDropdown .dropdown-item:hover {
+      background-color: #f7f7f7;
+      color: #4070f4;
+    }
+
+    .nav-links a.sale {
+      color: red;
+    }
+
+    .icons {
+      display: flex;
+      align-items: center;
+      gap: 50px;
+    }
+
+    .icons .cart,
+    .icons .favorites {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 12px;
+    }
+
+    .icons a {
+      text-decoration: none;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .icons i {
+      font-size: 20px;
+      color: black;
+    }
+
+    .icons .profile img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+
+    @media (max-width: 768px) {
+
+      .icons .cart,
+      .icons .favorites {
+        display: none;
+      }
+    }
+
+
+    .footer1 {
+      margin-top: 30px;
+      background-color: #24262b;
+      padding: 70px 0;
+    }
+
+    .footer1-col {
+      width: 25%;
+      padding: 0 15px;
+    }
+
+    .footer1-col h4 {
+      font-size: 18px;
+      color: #ffffff;
+      text-transform: capitalize;
+      margin-bottom: 35px;
+      font-weight: 500;
+      position: relative;
+    }
+
+    .footer1-col h4::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      background-color: #e91e63;
+      height: 2px;
+      box-sizing: border-box;
+      width: 50px;
+    }
+
+    .footer1-col ul li:not(:last-child) {
+      margin-bottom: 10px;
+    }
+
+    .footer1-col ul li {
+      font-size: 16px;
+      text-transform: capitalize;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 300;
+      color: #bbbbbb;
+      display: block;
+      transition: all 0.3s ease;
+    }
+
+    .footer1-col ul li a:hover {
+      color: #ffffff;
+      padding-left: 8px;
+    }
+
+    .footer1-col .social-links a {
+      display: inline-block;
+      height: 40px;
+      width: 40px;
+      background-color: rgba(255, 255, 255, 0.2);
+      margin: 0 10px 10px 0;
+      text-align: center;
+      line-height: 40px;
+      border-radius: 50%;
+      color: #ffffff;
+      transition: all 0.5s ease;
+    }
+
+    .footer1-col .social-links a:hover {
+      color: #24262b;
+      background-color: #ffffff;
+    }
+
+    .footer1 {
+      /* background-color: #24262b; */
+      padding: 70px 0;
+      transition: all 0.5s ease;
+    }
+
+    .footer1 {
+      position: relative;
+      /* margin-top: 300px; */
+    }
+
+    @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+    .alert {
+      background: #ffdb9b;
+      padding: 20px 40px;
+      min-width: 330px;
+      position: absolute;
+      right: 0;
+      top: 10px;
+      border-radius: 4px;
+      border-left: 8px solid #ffa502;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .alert.show {
+      animation: show_slide 1s ease forwards;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @keyframes show_slide {
+      0% {
+        transform: translateX(100%);
+      }
+
+      40% {
+        transform: translateX(-10%);
+      }
+
+      80% {
+        transform: translateX(0%);
+      }
+
+      100% {
+        transform: translateX(-10px);
+      }
+    }
+
+    .alert.hide {
+      animation: hide_slide 1s ease forwards;
+    }
+
+    @keyframes hide_slide {
+      0% {
+        transform: translateX(-10px);
+      }
+
+      40% {
+        transform: translateX(0%);
+      }
+
+      80% {
+        transform: translateX(-10%);
+      }
+
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    .alert .fa-exclamation-circle {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #ce8500;
+      font-size: 30px;
+    }
+
+    .alert .msg {
+      padding: 0 20px;
+      font-size: 18px;
+      color: #ce8500;
+    }
+
+    .alert .close-btn {
+      /* margin-top: 50px; */
+      position: absolute;
+      right: 0px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #ffd080;
+      padding: 20px 18px;
+      cursor: pointer;
+    }
+
+    .alert .close-btn:hover {
+      background: #ffc766;
+    }
+
+    .alert .close-btn .fas {
+      color: #ce8500;
+      /* font-size: 52px; */
+      margin-top: 15px;
+      /* line-height: 40px; */
+    }
+
+    .footer1-col ul li a {
+      color: #bbbbbb;
+      transition: color 0.3s ease, padding-left 0.3s ease;
+    }
+
+    .alert-text {
+      margin-top: 5px;
+      margin-left: 15px;
+    }
+
+    .footer1-col ul li a:hover {
+      color: #ffffff;
+      padding-left: 12px;
+      text-decoration: none;
+    }
+
+    .mobilelogin {
+      display: none;
+    }
+
+    .alertClose {
+      margin-top: 8px;
+    }
+
+    .alertClose span {
+      /* padding: 50px; */
+      font-size: 30px;
+      /* margin: 0 25px; */
+    }
+
+    /*responsive*/
+    @media(max-width: 767px) {
+      .footer1-col {
+        width: 50%;
+        margin-bottom: 30px;
+      }
+
+      body {
+        /* overflow-x: hidden; */
+      }
+
+      .mobilelogin {
+        display: block;
+        margin-top: -3px;
+      }
+    }
+
+    @media(max-width: 574px) {
+      .footer1-col {
+        width: 100%;
+      }
+    }
+  </style>
+  {% block css %} {% endblock %}
+  <style>
+    html,
+    body {
+      overflow-x: hidden
+    }
+  </style>
+</head>
+
+<body>
+  {% load static %}
+
+
+  <div class="header">
+    <div class="logo">
+      <a href="{% url 'ShopHome' %}">
+        HA.<span>G</span>
+      </a>
+    </div>
+    <form action="{% url 'Search' %}" method="get" class="search-bar">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search" name="query" />
+    </form>
+    <div class="icons">
+      <div class="cart">
+        {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}">
+          <img src="{% static 'shop/logout.gif' %}" class="favorites" alt="Logout" />
+          <span>Logout</span>
+        </a>
+        {% else %}
+        <a href="{% url 'register_view' %}">
+          <img src="{% static 'shop/login.gif' %}" class="favorites" alt="Login" />
+          <span>Login</span>
+        </a>
+        {% endif %}
+      </div>
+      <div class="cart">
+        <a href="{% url 'cart' %}">
+          <img src="{% static 'shop/cart.gif' %}" class="favorites" alt="Profile picture" />
+          <span>Cart</span>
+        </a>
+      </div>
+      <div class="favorites">
+        <a href="{% url 'favorites' %}">
+          <img src="{% static 'shop/favorite.gif' %}" class="favorites" alt="Profile picture" />
+          <span>Favorites</span>
+        </a>
+      </div>
+      <div class="profile">
+        <a href="#" id="profileDropdownToggle">
+          <img src="{% static 'shop/animation.gif' %}" alt="Profile picture" />
+        </a>
+        <div id="profileDropdown" class="dropdown-menu">
+          <a href="{% url 'cart' %}" class="dropdown-item">View Profile</a>
+          <a href="{% url 'user_orders' %}" class="dropdown-item">Order History</a>
+          {% if user.is_authenticated %}
+          <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
+          {% else %}
+          <a href="{% url 'register_view' %}" class="dropdown-item">Login</a>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="nav-links">
+    <a href="{% url 'Allproducts' %}">Products</a>
+    <a href="{% url 'AboutUs' %}">AboutUs</a>
+    <a href="{% url 'ContactUs' %}">ContactUs</a>
+    <a href="{% url 'Checkout' %}">Checkout</a>
+    <div class="mobilelogin">
+      {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}">
+        <span>Logout</span>
+      </a>
+      {% else %}
+      <a href="{% url 'register_view' %}">
+        <span>Login</span>
+      </a>
+      {% endif %}
+    </div>
+  </div>
+  {% block body %} {% endblock %}
+  {% if messages %}
+  <div class="container10">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+      <i class="fas fa-exclamation-circle"></i>
+      <h6 class="alert-text">
+
+        {{ message }}
+      </h6>
+
+      <button type="button" class="close alertClose" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  <footer class="footer1">
+    <div class="container3">
+      <div class="row">
+        <div class="footer1-col">
+          <h4>company</h4>
+          <ul>
+            <li><a href="#">about us</a></li>
+            <li><a href="#">our services</a></li>
+            <li><a href="#">privacy policy</a></li>
+            <li><a href="#">affiliate program</a></li>
+          </ul>
+        </div>
+        <div class="footer1-col">
+          <h4>get help</h4>
+          <ul>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">shipping</a></li>
+            <li><a href="#">returns</a></li>
+            <li><a href="#">order status</a></li>
+            <li><a href="#">payment options</a></li>
+          </ul>
+        </div>
+        <div class="footer1-col">
+          <h4>online shop</h4>
+          <ul>
+            <li><a href="#">watch</a></li>
+            <li><a href="#">bag</a></li>
+            <li><a href="#">shoes</a></li>
+            <li><a href="#">dress</a></li>
+          </ul>
+        </div>
+        <div class="footer1-col">
+          <h4>follow us</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Optional JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  {% block js %} {% endblock %}
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const profileToggle = document.getElementById("profileDropdownToggle");
+    const profileDropdown = document.getElementById("profileDropdown");
+
+    profileToggle.addEventListener("click", function (event) {
+      event.preventDefault();
+      profileDropdown.classList.toggle("show");
+    });
+
+    // Close dropdown if clicked outside
+    document.addEventListener("click", function (event) {
+      if (!profileToggle.contains(event.target) && !profileDropdown.contains(event.target)) {
+        profileDropdown.classList.remove("show");
+      }
+    });
+  });
+
+
+    // Close alert manually on button click
+    document.querySelectorAll('.alertClose').forEach(function (closeBtn) {
+      closeBtn.addEventListener('click', function () {
+        closeBtn.closest('.alert').classList.remove('show');
+      });
+    });
+
+    // Automatically close the alert after 5 seconds
+    document.querySelectorAll('.alert').forEach(function (alert) {
+      setTimeout(function () {
+        alert.classList.remove('show');
+      }, 5000);  // Close the alert after 5000 milliseconds (5 seconds)
+    });
+
+
+  </script>
+
+</body>
+
+</html>
