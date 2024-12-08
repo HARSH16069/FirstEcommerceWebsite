@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login, authenticate,logout
 from django.contrib import messages
-import tkinter as tk
+
 from django.db.models import Avg, Count  # Import Avg and Coun
 from tkinter import messagebox
 from django.db.models import Q
